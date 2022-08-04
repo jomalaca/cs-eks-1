@@ -1,0 +1,77 @@
+global:
+  clusterConfig:
+    name: EKS_CLUSTER_NAME
+  sysdig:
+    accessKey: ACCESS_KEY
+    region: "us2"
+  image:
+    registry: quay.io
+  kspm:
+    deploy: true
+  agentConfigmapName: "sysdig-agent"
+
+# decreased agent resources
+agent:
+  enabled: true
+  resources:
+    requests:
+      cpu: 250m
+      memory: 128Mi
+    limits:
+      cpu: 1
+      memory: 512Mi
+
+# decreased init container cpu and mem from 1000m and 348Mi
+  slim:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+
+# decreased nodeAnalyze resources
+nodeAnalyzer:
+  enabled: true
+  nodeAnalyzer:
+    imageAnalyzer:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 300m
+          memory: 1Gi
+    
+    benchmarkRunner:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 300m
+          memory: 256Mi
+    
+    hostAnalyzer:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 300m
+          memory: 1Gi
+
+    runtimeScanner:
+      deploy: true
+      settings:
+        eveEnabled: true
+
+rapidResponse:
+  enabled: false
+  rapidResponse:
+    passphrase: ""
+    existingPassphraseSecret: ""
+
+kspmCollector:
+  apiEndpoint: us2.app.sysdig.com
